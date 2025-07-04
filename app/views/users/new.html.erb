@@ -1,0 +1,29 @@
+<h1>Your profile</h1>
+
+<%= form_with model: @user, url: user_registration_path do |f| %>
+  <%= f.hidden_field :flow_address %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
+
+  <div>
+    <%= f.label :profile_pic %>
+    <%= f.text_field :profile_pic %> <!-- URL d'image -->
+  </div>
+
+  <div>
+    <%= f.label :role %><br>
+    <%= f.select :role, User.roles.keys.map { |r| [r.titleize, r] } %>
+  </div>
+
+  <div>
+    <%= f.submit "Create profile" %>
+  </div>
+<% end %>

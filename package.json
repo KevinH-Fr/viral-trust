@@ -9,6 +9,10 @@
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo-rails": "^8.0.16"
+    "@hotwired/turbo-rails": "^8.0.16",
+    "@onflow/fcl": "^1.19.0",
+    "@reown/walletkit": "^1.2.8",
+    "@walletconnect/core": "^2.21.4",
+    "@walletconnect/utils": "^2.21.4"
   }
 }

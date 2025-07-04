@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
+  #flow login
+  post 'flow_auth/authenticate', to: 'flow_auth#authenticate'
+  delete 'flow_auth/logout', to: 'flow_auth#logout'
+ 
   # Defines the root path route ("/")
   root "pages#home"
 end
