@@ -1,0 +1,41 @@
+<div class="container py-5">
+  <h2 class="fw-bold mb-3 text-center">Swap & Spend</h2>
+  <p class="text-muted text-center mb-5">Review your loyalty balances and simulate point conversions or swaps between brands.</p>
+
+  <div class="table-responsive shadow rounded">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">🎯 Brand</th>
+          <th scope="col">🏅 Points</th>
+          <th scope="col">💰 Convert to USDF</th>
+          <th scope="col">🔁 Swap Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @loyalty_points.each do |lp| %>
+          <% usdf_value = (lp.balance * 0.01).round(2) %>
+          <tr>
+            <td class="fw-semibold"><%= lp.campaign.title %></td>
+            <td><%= lp.balance %> pts</td>
+            <td>
+              <button class="btn btn-sm btn-success rounded-pill"
+                      onclick="alert('✅ Converted <%= lp.balance %> points to $<%= usdf_value %> USDF (simulation).')">
+                Convert ($<%= usdf_value %>)
+              </button>
+            </td>
+            <td>
+              <%= form_with url: swap_loyalty_points_path, method: :post, local: true, class: "d-flex align-items-center gap-2" do %>
+                <%= hidden_field_tag :from_id, lp.id %>
+                <%= select_tag :to_campaign_id,
+                  options_from_collection_for_select(Campaign.where.not(id: lp.campaign_id), :id, :title),
+                  class: "form-select form-select-sm" %>
+                <%= submit_tag "Swap", class: "btn btn-outline-primary btn-sm rounded-pill" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

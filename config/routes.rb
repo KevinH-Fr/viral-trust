@@ -20,6 +20,13 @@ Rails.application.routes.draw do
 
   resources :referrals, only: [:create]
 
+  resources :loyalty_points, only: [:index] do
+    collection do
+      post :swap
+    end
+  end
+
+
   get '/r/:code', to: 'referral_links#redirect', as: :referral_redirect
 
   root "pages#home"

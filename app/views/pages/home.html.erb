@@ -1,13 +1,89 @@
 <div class="container py-5">
-  <div class="text-center">
-    <h1 class="display-4 fw-bold mb-4">Welcome to ViralTrust</h1>
-    <p class="lead mb-5">Build trust and grow your brand through the power of community.</p>
-    
-    <% if current_user&.role == "brand" %>
-        <%= render  "brand_dashboard" %>
-    <% elsif current_user&.role == "ambassador" %>
-        <%= render  "ambassador_dashboard" %>
-    <% end %>
 
+  <!-- Hero Section -->
+  <div class="container py-5">
+    <!-- Hero Section in two columns -->
+    <div class="row align-items-center mb-5">
+      <!-- Left: Text content -->
+      <div class="col-md-6 text-md-start text-center">
+        <h1 class="display-5 fw-bold mb-3">
+          Unlock exponential growth with a two-sided referral engine
+        </h1>
+        <p class="lead text-muted mb-4">
+          ViralTrust turns customer advocacy into a scalable growth channel. Reward both the referrer and their friends—automatically, transparently, and on-chain.
+        </p>
+        <%= link_to "Launch your campaign", new_campaign_path, class: "btn btn-primary btn-lg rounded-pill px-4 shadow-sm" %>
+      </div>
+
+      <!-- Right: Image -->
+      <div class="col-md-6 text-center mt-4 mt-md-0">
+        <%= image_tag "visuel2.png", class: "img-fluid rounded shadow-sm", alt: "Referral process illustration", style: "max-height: 480px;" %>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Explainer Section (Optional) -->
+  <div class="row py-5 text-center">
+    <div class="col-md-4 mb-4">
+      <%= image_tag "visuel1.png", class: "mb-3", width: "80", alt: "Liquid Loyalty" %>
+      <h5 class="fw-bold">Liquid Loyalty</h5>
+      <p class="text-muted small">
+        Reward points that are swappable for USDF. Give real value to loyalty and boost motivation like never before.
+      </p>
+    </div>
+    <div class="col-md-4 mb-4">
+      <%= image_tag "visuel2.png", class: "mb-3", width: "80", alt: "Verifiable Virality" %>
+      <h5 class="fw-bold">Verifiable Virality</h5>
+      <p class="text-muted small">
+        All referrals and rewards are tracked on-chain. No fraud. Full transparency. Real engagement.
+      </p>
+    </div>
+    <div class="col-md-4 mb-4">
+      <%= image_tag "visuel3.png", class: "mb-3", width: "80", alt: "Composable Commerce" %>
+      <h5 class="fw-bold">Composable Commerce</h5>
+      <p class="text-muted small">
+        Swap loyalty points across brands. Leverage each other's communities through interoperable campaigns.
+      </p>
+    </div>
+  </div>
+
+  <!-- Feature Section -->
+  <div class="row text-start align-items-center py-5">
+    <div class="col-md-6 mb-4 mb-md-0">
+      <h2 class="fw-bold mb-3">Turn your customers into ambassadors</h2>
+      <p class="text-muted mb-4">
+        Let your community do the marketing. Create campaigns in minutes and empower your users to share your brand story in exchange for transparent, on-chain rewards.
+      </p>
+      <%= link_to "See how it works", "#how-it-works", class: "btn btn-outline-primary rounded-pill px-4" %>
+    </div>
+    <div class="col-md-6">
+      <%= image_tag "visuel1.png", class: "img-fluid rounded shadow-sm", alt: "Campaign dashboard preview" %>
+    </div>
+  </div>
+
+  <!-- Testimonials / Trust Section -->
+  <div class="text-center my-5">
+    <h4 class="fw-bold mb-3">Trusted by growth-driven brands</h4>
+    <p class="text-muted">You're in good company. Let your most loyal users power your next wave of growth.</p>
+  </div>
+
+  <hr class="my-5">
+
+  <!-- Role-based Dashboard -->
+  <div class="mt-5">
+    <% if current_user&.role == "brand" %>
+      <%= render "brand_dashboard" %>
+    <% elsif current_user&.role == "ambassador" %>
+      <%= render "ambassador_dashboard" %>
+    <% else %>
+      <div class="alert alert-info text-center">
+        Please log in to access your personalized dashboard.
+      </div>
+    <% end %>
   </div>
 </div>
+
+
+<hr class="my-5">

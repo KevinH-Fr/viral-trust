@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_04_213828) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_05_105956) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -50,6 +50,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_04_213828) do
     t.index ["user_id"], name: "index_campaigns_on_user_id"
   end
 
+  create_table "loyalty_points", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "campaign_id", null: false
+    t.integer "balance", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["campaign_id"], name: "index_loyalty_points_on_campaign_id"
+    t.index ["user_id"], name: "index_loyalty_points_on_user_id"
+  end
+
   create_table "referrals", force: :cascade do |t|
     t.string "code"
     t.integer "user_id", null: false
@@ -75,6 +85,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_04_213828) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "campaigns", "users"
+  add_foreign_key "loyalty_points", "campaigns"
+  add_foreign_key "loyalty_points", "users"
   add_foreign_key "referrals", "campaigns"
   add_foreign_key "referrals", "users"
 end

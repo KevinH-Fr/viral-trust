@@ -13,43 +13,88 @@
 
   <hr class="my-5">
 
-  <div>
-    <h4 class="fw-bold mb-3">Embed Referral Tracking</h4>
-    <p class="text-muted mb-3">Click the button below to copy the tracking script for this campaign. Paste it into your website where you want to enable referral tracking.</p>
+  <% if current_user&.role == "ambassador" %>
+    <!-- ✅ Ambassador: Generate & show referral link -->
+    <div class="mb-5">
 
-    <button class="btn btn-primary rounded-pill px-4" onclick="copySnippet()">
-      <i class="bi bi-clipboard-check me-2"></i>
-      Copy Tracking Snippet
-    </button>
+      <% referral = Referral.find_by(user: current_user, campaign: @campaign) %>
 
-    <!-- Hidden snippet -->
-    <textarea id="embed-snippet" class="d-none">
-        <script src="http://localhost:3000/tracking.js" data-campaign-id="<%= @campaign.id %>"> </script>
-    </textarea>
-  </div>
+      <% if referral.present? %>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Referral URL:</label>
+          <div class="input-group">
+            <input type="text"
+                   readonly
+                   class="form-control text-monospace"
+                   value="<%= "#{@campaign.brand_url}?via=#{referral.code}" %>"
+                   id="referral-link">
+            <button class="btn btn-outline-secondary" onclick="copyReferral()">Copy</button>
+          </div>
+        </div>
+
+        <p class="small text-muted mt-2">
+          <% if referral.clicked_at.present? %>
+            <i class="bi bi-check-circle-fill text-success me-1"></i>
+            Link clicked on <%= referral.clicked_at.strftime("%d %b %Y, %H:%M") %>
+          <% else %>
+            <i class="bi bi-hourglass-split text-warning me-1"></i>
+            Not clicked yet
+          <% end %>
+        </p>
+      <% else %>
+        <%= button_to "Generate Your Referral Link",
+                      referrals_path(campaign_id: @campaign.id),
+                      method: :post,
+                      class: "btn btn-primary rounded-pill px-4" %>
+      <% end %>
+    </div>
+
+  <% elsif current_user&.role == "brand" %>
+    <!-- ✅ Brand: Embed tracking script -->
+    <div>
+      <h4 class="fw-bold mb-3">Embed Referral Tracking</h4>
+      <p class="text-muted mb-3">Copy and paste this snippet into your website to enable tracking for this campaign.</p>
+
+      <button class="btn btn-outline-primary rounded-pill px-4" onclick="copySnippet()">
+        <i class="bi bi-clipboard-check me-2"></i>
+        Copy Tracking Snippet
+      </button>
+
+      <!-- Hidden textarea to hold snippet -->
+      <textarea id="embed-snippet" class="d-none">
+<script src="http://localhost:3000/tracking.js" data-campaign-id="<%= @campaign.id %>"></script>
+      </textarea>
+    </div>
+  <% end %>
 </div>
 
-<!-- ✅ Bootstrap Toast confirmation -->
+<!-- ✅ Toast notification -->
 <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
   <div id="copyToast" class="toast align-items-center text-bg-success border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex">
       <div class="toast-body">
-        ✅ Snippet copied to clipboard!
+        ✅ Copied to clipboard!
       </div>
       <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
   </div>
 </div>
 
+<!-- ✅ JS for copy to clipboard -->
 <script>
+  function copyReferral() {
+    const input = document.getElementById("referral-link");
+    if (!input) return;
+
+    navigator.clipboard.writeText(input.value).then(() => {
+      new bootstrap.Toast(document.getElementById("copyToast")).show();
+    }).catch(() => alert("Copy failed"));
+  }
+
   function copySnippet() {
-    const snippet = document.getElementById("embed-snippet");
-    navigator.clipboard.writeText(snippet.value.trim()).then(() => {
-      const toastEl = document.getElementById('copyToast');
-      const toast = new bootstrap.Toast(toastEl);
-      toast.show();
-    }).catch(() => {
-      alert("Failed to copy the snippet.");
-    });
+    const textarea = document.getElementById("embed-snippet");
+    navigator.clipboard.writeText(textarea.value.trim()).then(() => {
+      new bootstrap.Toast(document.getElementById("copyToast")).show();
+    }).catch(() => alert("Copy failed"));
   }
 </script>

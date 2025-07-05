@@ -1,24 +1,47 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm px-4">
   <div class="container-fluid">
 
-    <!-- Logo linking to root -->
+    <!-- Logo -->
     <%= link_to root_path, class: "navbar-brand d-flex align-items-center" do %>
       <%= image_tag "ViralTrust.png", alt: "ViralTrust Logo", width: 36, height: 36, class: "me-2" %>
-      <span class="fw-bold">ViralTrust</span>
+      <span class="fw-bold fs-5">ViralTrust</span>
     <% end %>
 
-    <!-- Right section -->
-    <div class="ms-auto d-flex align-items-center gap-3">
+    <!-- Toggle button (mobile) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <!-- Navigation items -->
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4">
+        <li class="nav-item">
+          <%= link_to "How it works", "#how-it-works", class: "nav-link fw-semibold" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Swap & Spend", loyalty_points_path, class: "nav-link fw-semibold" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Templates", "#templates", class: "nav-link fw-semibold" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Pricing", "#pricing", class: "nav-link fw-semibold" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "FAQs", "#faqs", class: "nav-link fw-semibold" %>
+        </li>
+
+
+      </ul>
+
+      <!-- User or CTA -->
       <% if current_user %>
-        <!-- Connected user summary -->
         <div data-controller="flow-auth" class="d-flex align-items-center gap-2">
           <span class="text-primary fw-semibold small">
             <i class="bi bi-person-circle me-1"></i>
             <%= current_user.name.presence || current_user.flow_address.truncate(10) %>
           </span>
 
-          <!-- Disconnect button (Stimulus) -->
           <button
             data-action="click->flow-auth#logout"
             class="btn btn-outline-danger btn-sm rounded-pill px-3">
@@ -26,10 +49,7 @@
           </button>
         </div>
       <% else %>
-        <!-- Flow connection controls -->
-        <div data-controller="flow-auth" class="d-flex align-items-center gap-2">
-
-          <!-- Wallet address display (shown after connect) -->
+        <div data-controller="flow-auth" class="d-flex align-items-center gap-3">
           <span data-flow-auth-target="walletAddress"
                 class="text-primary fw-semibold text-monospace small"
                 style="display: none;">
@@ -37,20 +57,11 @@
             <span data-flow-auth-target="addressText"></span>
           </span>
 
-          <!-- Login button -->
           <button data-flow-auth-target="loginButton"
                   data-action="click->flow-auth#login"
                   class="btn btn-outline-primary btn-sm rounded-pill px-3"
                   style="display: none;">
-            <i class="bi bi-box-arrow-in-right"></i>
-          </button>
-
-          <!-- Logout button (not used here, but defined for completeness) -->
-          <button data-flow-auth-target="logoutButton"
-                  data-action="click->flow-auth#logout"
-                  class="btn btn-outline-danger btn-sm rounded-pill px-3"
-                  style="display: none;">
-            <i class="bi bi-box-arrow-right"></i>
+            <i class="bi bi-box-arrow-in-right me-1"></i> Log in
           </button>
         </div>
       <% end %>

@@ -1,6 +1,6 @@
 class CampaignsController < ApplicationController
-  before_action :require_login
-  before_action :ensure_brand!
+ # before_action :require_login
+ # before_action :ensure_brand!
 
   def new
     @campaign = current_user.campaigns.new
