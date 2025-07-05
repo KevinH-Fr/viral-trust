@@ -1,0 +1,56 @@
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">Your Campaigns</h2>
+    <%= link_to new_campaign_path, class: "btn btn-success btn-sm rounded-pill px-4 d-flex align-items-center gap-2" do %>
+      <i class="bi bi-plus-lg"></i>
+      New Campaign
+    <% end %>
+  </div>
+
+  <% if current_user.campaigns.any? %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% current_user.campaigns.each do |campaign| %>
+        <div class="col">
+          <div class="card h-100 text-start shadow border-0 rounded-4">
+
+            <% if campaign.image.attached? %>
+              <%= image_tag campaign.image.variant(resize_to_limit: [600, 300]), class: "card-img-top rounded-top-4" %>
+            <% else %>
+              <%= image_tag "default_img.png", class: "card-img-top rounded-top-4" %>
+            <% end %>
+
+            <div class="card-body">
+              <h5 class="card-title mb-2 fw-semibold"><%= campaign.title %></h5>
+              <p class="card-text text-muted small">
+                <%= truncate(campaign.description, length: 120) %>
+              </p>
+              <p class="text-primary small mb-0">
+                <i class="bi bi-gift-fill me-1"></i>
+                <strong>Total Reward:</strong> <%= number_to_currency(campaign.total_reward_amount) %>
+              </p>
+
+              <p class="text-dark small mb-0">
+                <i class="bi bi-link me-1"></i>
+                <strong>Brand URL:</strong> <%= campaign.brand_url %>
+              </p>
+
+            </div>
+
+            <div class="card-footer bg-white border-0 text-end">
+              <%= link_to "Manage", campaign_path(campaign), class: "btn btn-sm btn-outline-primary rounded-pill px-3" %>
+            </div>
+
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-info rounded-4">
+      You haven’t created any campaigns yet.
+      <%= link_to "Create one", new_campaign_path, class: "btn btn-sm btn-primary ms-2 rounded-pill px-3 d-inline-flex align-items-center gap-1" do %>
+        <i class="bi bi-plus-circle"></i>
+        Create
+      <% end %>
+    </div>
+  <% end %>
+</div>

@@ -13,6 +13,7 @@
     "@onflow/fcl": "^1.19.0",
     "@reown/walletkit": "^1.2.8",
     "@walletconnect/core": "^2.21.4",
-    "@walletconnect/utils": "^2.21.4"
+    "@walletconnect/utils": "^2.21.4",
+    "ethers": "^6.15.0"
   }
 }

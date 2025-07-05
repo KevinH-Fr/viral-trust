@@ -1,2 +1,13 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container py-5">
+  <div class="text-center">
+    <h1 class="display-4 fw-bold mb-4">Welcome to ViralTrust</h1>
+    <p class="lead mb-5">Build trust and grow your brand through the power of community.</p>
+    
+    <% if current_user&.role == "brand" %>
+        <%= render  "brand_dashboard" %>
+    <% elsif current_user&.role == "ambassador" %>
+        <%= render  "ambassador_dashboard" %>
+    <% end %>
+
+  </div>
+</div>

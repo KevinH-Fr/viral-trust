@@ -41,14 +41,20 @@ export default class extends Controller {
       })
 
       const data = await response.json()
+      console.log("Flow login response:", data) // Debug
+
       if (response.ok && data.message === "Authentication successful") {
         this.updateUserStatus(true, walletAddress)
+
+        if (data.redirect_to) {
+          window.location.href = data.redirect_to
+        }
       } else {
         alert(data.error || "Authentication failed")
       }
     } catch (error) {
       console.error("Flow login error:", error)
-      alert("Une erreur est survenue pendant l’authentification.")
+      alert("An error occurred during authentication.")
     }
   }
 
@@ -73,7 +79,7 @@ export default class extends Controller {
       }
     } catch (err) {
       console.error("Logout error:", err)
-      alert("Une erreur est survenue pendant la déconnexion.")
+      alert("An error occurred during logout.")
     }
   }
 

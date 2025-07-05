@@ -1,0 +1,44 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-5">
+          <h2 class="mb-4 text-center fw-bold">Complete your Profile</h2>
+
+          <%= form_with model: @user, local: true, html: { class: "needs-validation" } do |f| %>
+            <% if @user.errors.any? %>
+              <div class="alert alert-danger">
+                <h5 class="mb-2 fw-bold">Please fix the following errors:</h5>
+                <ul class="mb-0">
+                  <% @user.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="mb-3">
+              <%= f.label :name, class: "form-label fw-semibold" %>
+              <%= f.text_field :name, class: "form-control", required: true %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :email, class: "form-label fw-semibold" %>
+              <%= f.email_field :email, class: "form-control", required: true %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :role, class: "form-label fw-semibold" %>
+              <%= f.select :role, options_for_select([["Ambassador", "ambassador"], ["Brand", "brand"]], @user.role), {}, class: "form-select", required: true %>
+            </div>
+
+            <div class="d-grid">
+              <%= f.submit "Save Changes", class: "btn btn-primary btn-lg rounded-pill" %>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "referral_links/redirect"
   get "pages/home"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -14,6 +15,24 @@ Rails.application.routes.draw do
   post 'flow_auth/authenticate', to: 'flow_auth#authenticate'
   delete 'flow_auth/logout', to: 'flow_auth#logout'
  
-  # Defines the root path route ("/")
+  resources :users, only: [:edit, :update]
+  resources :campaigns, only: [:new, :create, :show]
+
+  resources :referrals, only: [:create]
+
+  get '/r/:code', to: 'referral_links#redirect', as: :referral_redirect
+
   root "pages#home"
+
+  namespace :api do
+    namespace :referrals do
+      post 'track', to: 'tracker#create'
+      post "generate", to: "links#create"
+    end
+  end
+
+  # config/routes.rb
+  get '/tracking.js', to: redirect('/assets/public/tracking.js')
+
+
 end

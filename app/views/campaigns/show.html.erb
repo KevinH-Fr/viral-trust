@@ -1,0 +1,55 @@
+<div class="container py-5">
+  <h1 class="mb-4 fw-bold"><%= @campaign.title %></h1>
+
+  <% if @campaign.image.attached? %>
+    <%= image_tag @campaign.image.variant(resize_to_limit: [800, 400]), class: "img-fluid rounded shadow-sm mb-4" %>
+  <% else %>
+    <%= image_tag "default_img.png", class: "img-fluid rounded shadow-sm mb-4" %>
+  <% end %>
+
+  <p class="lead text-muted"><%= @campaign.description %></p>
+  <p><strong>Total Reward:</strong> <%= number_to_currency(@campaign.total_reward_amount) %></p>
+  <p><strong>Brand URL:</strong> <%= @campaign.brand_url %></p>
+
+  <hr class="my-5">
+
+  <div>
+    <h4 class="fw-bold mb-3">Embed Referral Tracking</h4>
+    <p class="text-muted mb-3">Click the button below to copy the tracking script for this campaign. Paste it into your website where you want to enable referral tracking.</p>
+
+    <button class="btn btn-primary rounded-pill px-4" onclick="copySnippet()">
+      <i class="bi bi-clipboard-check me-2"></i>
+      Copy Tracking Snippet
+    </button>
+
+    <!-- Hidden snippet -->
+    <textarea id="embed-snippet" class="d-none">
+        <script src="http://localhost:3000/tracking.js" data-campaign-id="<%= @campaign.id %>"> </script>
+    </textarea>
+  </div>
+</div>
+
+<!-- ✅ Bootstrap Toast confirmation -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080">
+  <div id="copyToast" class="toast align-items-center text-bg-success border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">
+        ✅ Snippet copied to clipboard!
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function copySnippet() {
+    const snippet = document.getElementById("embed-snippet");
+    navigator.clipboard.writeText(snippet.value.trim()).then(() => {
+      const toastEl = document.getElementById('copyToast');
+      const toast = new bootstrap.Toast(toastEl);
+      toast.show();
+    }).catch(() => {
+      alert("Failed to copy the snippet.");
+    });
+  }
+</script>
