@@ -1,4 +1,3 @@
-# app/controllers/loyalty_points_controller.rb
 class LoyaltyPointsController < ApplicationController
  # before_action :authenticate_user!
 

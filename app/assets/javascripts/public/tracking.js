@@ -17,7 +17,7 @@
     body: JSON.stringify({
       ref_code: refCode,
       campaign_id: parseInt(campaignId),
-      visitor_ip: null, // laisser à null, le serveur peut le remplir si besoin
+      visitor_ip: null, 
       timestamp: new Date().toISOString(),
     }),
   }).then((res) => {
