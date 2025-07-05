@@ -15,6 +15,20 @@ class CampaignsController < ApplicationController
     end
   end
 
+  def edit
+    @campaign = Campaign.find(params[:id])
+  end
+
+    # PATCH/PUT /campaigns/:id
+  def update
+    @campaign = Campaign.find(params[:id])
+    if @campaign.update(campaign_params)
+      redirect_to @campaign, notice: "Campaign was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   def show
     @campaign = Campaign.find(params[:id])
   end

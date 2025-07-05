@@ -1,0 +1,29 @@
+<div class="container py-5">
+  <h1 class="fw-bold mb-4">Bridge & Grow</h1>
+  <p class="text-muted mb-5">Swap your points into other brand rewards and grow your loyalty value.</p>
+
+  <div class="vstack gap-4">
+    <% @campaigns.each do |campaign| %>
+      <div class="card shadow border-0 rounded-4 overflow-hidden">
+        <div class="row g-0 align-items-stretch" style="min-height: 200px;">
+          <div class="col-md-5 d-flex">
+            <% if campaign.image.attached? %>
+              <%= image_tag campaign.image.variant(resize_to_fill: [400, 300]),
+                            class: "img-fluid w-100 h-100 object-fit-cover rounded-start-4" %>
+            <% else %>
+              <%= image_tag "default_img.png",
+                            class: "img-fluid w-100 h-100 object-fit-cover rounded-start-4" %>
+            <% end %>
+          </div>
+          <div class="col-md-7">
+            <div class="card-body h-100 d-flex flex-column justify-content-center p-4">
+              <h4 class="card-title fw-bold"><%= campaign.title %></h4>
+              <p class="card-text text-muted">Swap your points to <strong><%= campaign.title %></strong> brand points.</p>
+              <%= link_to "Swap", loyalty_points_path, class: "btn btn-outline-primary rounded-pill px-4 mt-2" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

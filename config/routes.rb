@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   delete 'flow_auth/logout', to: 'flow_auth#logout'
  
   resources :users, only: [:edit, :update]
-  resources :campaigns, only: [:new, :create, :show]
+  resources :campaigns, only: [:new, :create, :show, :edit, :update]
 
   resources :referrals, only: [:create]
 
@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       post :swap
     end
   end
+
+  get 'bridge', to: 'bridge#index', as: :bridge_index
 
 
   get '/r/:code', to: 'referral_links#redirect', as: :referral_redirect
